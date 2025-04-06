@@ -4,13 +4,18 @@ Este es un proyecto simple que implementa un **CRUD de videojuegos** utilizando 
 
 Es ideal para practicar el uso de FastAPI y la integración con Firebase mediante el SDK Admin de Python.
 
+Puedes ver la documentacion desplegada aqui:
+
+- [FastApiCrud /docs](https://fast-api-crud-zeta.vercel.app/docs)
+- [FastApiCrud /redoc](https://fast-api-crud-zeta.vercel.app/redoc)
+
 ## 📁 Estructura del Proyecto
 
 ```
 ├── main.py # Contiene todas las rutas y lógica del CRUD
 ├── requirements.txt # Dependencias necesarias para el entorno
 ├── README.md # Este archivo 📝
-└── talkus-12d74-firebase-adminsdk-\*.json # Credenciales de Firebase (omitido en .gitignore recomendado)
+└── .env
 ```
 
 ## ⚙️ Instalación
@@ -34,7 +39,13 @@ source venv/bin/activate  # En Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Asegúrate de tener tu archivo de credenciales de Firebase en la raíz del proyecto (formato .json descargado desde Firebase Console).
+4. Guarda tus credenciales de firebase firestore en tu archivo `.env`, donde debe estar guardado como un string de solo una linea. Puedes hacerlo siguiendo este comando
+
+```
+cat [tu_archivo_credenciales].json
+```
+
+La salida la puedes copiar y pegar directamente en el `.env`
 
 ## ▶️ Ejecución
 
@@ -47,8 +58,9 @@ fastapi dev main.py
 Esto iniciará el servidor en http://127.0.0.1:8000
 
 También puedes acceder a la documentación interactiva generada automáticamente en:
-📚 http://127.0.0.1:8000/docs
-📚 http://127.0.0.1:8000/redoc
+
+- 📚 http://127.0.0.1:8000/docs
+- 📚 http://127.0.0.1:8000/redoc
 
 ## 📚 Endpoints disponibles
 
