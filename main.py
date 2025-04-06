@@ -18,6 +18,12 @@ class Game(BaseModel):
     description: Optional[str] = None
     price: float
 
+class GameInDB(Game):
+    id: str
+
+class ResponseModel(BaseModel):
+    detail: str
+
 # Model for updating a game (only the fields that can be updated)
 class GameUpdate(BaseModel):
     name: Optional[str] = None
@@ -29,20 +35,20 @@ class GameUpdate(BaseModel):
         return {field_name: field_value for field_name, field_value in self.model_dump().items() if field_value is not None}
 
 # Create a new game
-@app.post("/games/")
+@app.post("/games/", response_model=GameInDB)
 async def create_game(game: Game):
     doc_ref = db.collection('games').document()
     doc_ref.set(game.model_dump())
     return {"id": doc_ref.id, **game.model_dump()}
 
 #Get all games
-@app.get("/games/")
+@app.get("/games/", response_model=list[GameInDB])
 async def get_games():
     docs = db.collection('games').get()
     return [{"id": doc.id, **doc.to_dict()} for doc in docs]
 
 # Get a game by ID
-@app.get("/games/{game_id}")
+@app.get("/games/{game_id}", response_model=GameInDB)
 async def get_game(game_id: str):
     doc_ref = db.collection('games').document(game_id)
     doc = doc_ref.get()
@@ -51,7 +57,7 @@ async def get_game(game_id: str):
     return {"id": doc.id, **doc.to_dict()}
 
 # Update a game by ID
-@app.put("/games/{game_id}")
+@app.put("/games/{game_id}", response_model=GameInDB)
 async def update_game(game_id: str, game_update: GameUpdate):
     # Get the update data from the request body
     update_data = game_update.get_update_data()
@@ -73,11 +79,11 @@ async def update_game(game_id: str, game_update: GameUpdate):
     return {"id": updated_doc.id, **updated_doc.to_dict()}
 
 # Delete a game by ID
-@app.delete("/games/{game_id}")
+@app.delete("/games/{game_id}", response_model=ResponseModel)
 async def delete_game(game_id: str):
     doc_ref = db.collection('games').document(game_id)
     doc = doc_ref.get()
     if not doc.exists:
         raise HTTPException(status_code=404, detail="Game not found")
     doc_ref.delete()
-    return {"message": "Game deleted successfully"}
+    return {"detail": "Game deleted successfully"}
