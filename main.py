@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 import firebase_admin
-from firebase_admin import credentials, firestore, initialize_app
+from firebase_admin import credentials, firestore
 from typing import Optional
 from pydantic import BaseModel
 from dotenv import load_dotenv
