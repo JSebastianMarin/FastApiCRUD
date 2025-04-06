@@ -3,15 +3,17 @@ import firebase_admin
 from firebase_admin import credentials, firestore, initialize_app
 from typing import Optional
 from pydantic import BaseModel
+from dotenv import load_dotenv
+import os
+import json
 
 app = FastAPI()
 
-@app.get("/favicon.ico")
-async def favicon():
-    return {}
+load_dotenv()
 
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate("./talkus-12d74-firebase-adminsdk-fbsvc-e99b2bf5e4.json")
+firebase_json = os.getenv("FIREBASE_CREDENTIALS")
+cred = credentials.Certificate(json.loads(firebase_json))
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
