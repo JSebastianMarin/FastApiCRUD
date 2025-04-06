@@ -6,6 +6,9 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
+@app.get("/favicon.ico")
+async def favicon():
+    return {}
 
 # Initialize Firebase Admin SDK
 cred = credentials.Certificate("./talkus-12d74-firebase-adminsdk-fbsvc-e99b2bf5e4.json")
