@@ -75,11 +75,11 @@ async def update_game(game_id: str, game_update: GameUpdate):
     
     if not doc.exists:
         raise HTTPException(status_code=404, detail="Game not found")
-        
-    # Actualizar solo los campos proporcionados
+    
+    # Use the update method to only update the fields that were provided
     doc_ref.update(update_data)
     
-    # Obtener el documento actualizado
+    # Retrieve the updated document to return it
     updated_doc = doc_ref.get()
     return {"id": updated_doc.id, **updated_doc.to_dict()}
 
